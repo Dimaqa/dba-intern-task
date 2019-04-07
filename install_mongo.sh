@@ -16,4 +16,4 @@ sudo sed -i 's/bind_ip.*/bind_ip = 0.0.0.0/g' /etc/mongodb.conf
 use admin;
 db.createUser({user:'root', pwd:'secretpwd', roles: [{role:'root', db:'admin'}]})
 EOF
-sudo service mongod restart
+sudo service mongodb restart

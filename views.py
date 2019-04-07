@@ -22,12 +22,14 @@ async def test_mongo(request):
     try:
         data = request.rel_url.query
         host = data['host']
-        port = int(data.get('port')) if data.get('port') else MONGO_PORT
     except:
         body = 'BAD PARAMS'
         code = 400
     else:
         code=200
+        port = data.get('port')
+        # if port isnt specified, using default one
+        port = int(port) if port else MONGO_PORT
         client = MongoClient(host=host,port=port, username='root', password='secretpwd')
         try:
             # and here aiohttp pretty useless,
