@@ -1,4 +1,6 @@
 #!/bin/sh
+# install dirmgr to add public key
+sudo apt-get install -y dirmngr
 # enable rabbitmq repo and add verificaton key
 echo "deb https://dl.bintray.com/rabbitmq/debian stretch main" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
 curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -
