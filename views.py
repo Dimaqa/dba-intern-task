@@ -1,4 +1,5 @@
 from aiohttp import web
+from pymongo import MongoClient
 
 MONGO_PORT = 27017
 
@@ -18,8 +19,15 @@ async def test_mongo(request):
         host = data['host']
         port = int(data.get('port')) if data.get('port') else MONGO_PORT
     except:
-        data = 'BAD PARAMS'
+        body = 'BAD PARAMS'
         code = 400
     else:
-        data = host
-    return web.Response(body=data,status=code)
+        code=200
+        client = MongoClient(host=host,port=port, username='root', password='secretpwd')
+        try:
+            client.server_info()
+        except Exception as e:
+            body='false, error: %s' % str(e)
+        else:
+            body='true'
+    return web.Response(body=body,status=code)
