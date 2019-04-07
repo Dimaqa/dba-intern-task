@@ -27,7 +27,7 @@ async def test_mongo(request):
         try:
             client.server_info()
         except Exception as e:
-            body='false, error: %s' % str(e)
+            body='false, error: %s' % type(e).__name__
         else:
             body='true'
     return web.Response(body=body,status=code)
