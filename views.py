@@ -9,8 +9,13 @@ async def get_rabbit(request):
     return web.Response(body=body, status=200)
 
 async def get_mongo(request):
+    data = request.rel_url.query
+    replica = data.get('replication')
     with open('install_mongo.sh') as f:
         body = f.read()
+    if replica.lower() == 'true':
+        with open('install_replica.sh') as f:
+            body += f.read()
     return web.Response(body=body, status=200)
 
 async def test_mongo(request):
@@ -25,6 +30,8 @@ async def test_mongo(request):
         code=200
         client = MongoClient(host=host,port=port, username='root', password='secretpwd')
         try:
+            # and here aiohttp pretty useless,
+            # cuz we cant handle 2 test requests at a same time
             client.server_info()
         except Exception as e:
             body='false, error: %s' % type(e).__name__
