@@ -18,7 +18,7 @@ exec { 'add admin user':
   notify => Service['mongodb']
 }
 exec { 'run as replica':
-  command => 'echo replSetName: "rs0" | /usr/bin/tee -a /etc/mongodb.conf && echo "rs.initiate()" | /usr/bin/mongo',
+  command => 'echo replSet="rs0" | /usr/bin/tee -a /etc/mongodb.conf && echo "rs.initiate()" | /usr/bin/mongo',
   path => '/bin',
   notify => Service['mongodb']
 }
