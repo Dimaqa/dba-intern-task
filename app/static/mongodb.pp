@@ -8,6 +8,7 @@ service {'mongodb':
 exec { 'open server to internet':
   command => "sed -i 's/bind_ip.*/bind_ip = 0.0.0.0/g' /etc/mongodb.conf",
   path => '/bin',
+  unless => ["cat /etc/mongodb.conf | grep 'bind_ip = 0.0.0.0'"],
   notify => Service['mongodb']
 }
 exec { 'add admin user':
